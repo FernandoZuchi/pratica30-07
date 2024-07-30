@@ -231,7 +231,7 @@ export default LoginSignup;
 }
 ```
 
-## Projeto 2 - Home page com vídeo e carrossel de fotos
+# Projeto 2 - Home page com vídeo e carrossel de fotos
 
 ### 1. Estrutura Geral
 
