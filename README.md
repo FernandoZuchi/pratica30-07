@@ -244,33 +244,44 @@ export default LoginSignup;
 
 **Código (`App.js`):**
 ```jsx
-import React, { useEffect, useState } from 'react';
-import Background from './Components/Background/Background';
-import Navbar from './Components/Navbar/Navbar';
-import Hero from './Components/Hero/Hero';
+import React, { useEffect, useState } from 'react'; // Importa React e hooks necessários
+import Background from './Components/Background/Background'; // Importa o componente Background
+import Navbar from './Components/Navbar/Navbar'; // Importa o componente Navbar
+import Hero from './Components/Hero/Hero'; // Importa o componente Hero
 
 const App = () => {
+  // Define os dados para o componente Hero
   let heroData = [
-    {text1:"Dive into", text2:"what you love"},
-    {text1:"Indulge", text2:"your passions"},
-    {text1:"Give in to", text2:"your passions"},
+    { text1: "Dive into", text2: "what you love" },
+    { text1: "Indulge", text2: "your passions" },
+    { text1: "Give in to", text2: "your passions" },
   ];
 
+  // Cria um estado para controlar o índice da imagem ou vídeo de fundo
   const [heroCount, setHeroCount] = useState(2);
+
+  // Cria um estado para controlar o status de reprodução do vídeo
   const [playStatus, setPlayStatus] = useState(false);
 
   useEffect(() => {
+    // Define um intervalo que muda o índice do herói a cada 3 segundos
     const interval = setInterval(() => {
       setHeroCount((count) => (count === 2 ? 0 : count + 1));
     }, 3000);
 
+    // Limpa o intervalo quando o componente é desmontado
     return () => clearInterval(interval);
   }, []);
 
   return (
     <div>
+      {/* Renderiza o componente Background, passando os estados playStatus e heroCount */}
       <Background playStatus={playStatus} heroCount={heroCount} />
+      
+      {/* Renderiza o componente Navbar */}
       <Navbar />
+      
+      {/* Renderiza o componente Hero, passando os dados e estados necessários */}
       <Hero 
         setPlayStatus={setPlayStatus}
         heroData={heroData[heroCount]}
@@ -304,6 +315,7 @@ Define a fonte padrão utilizada na aplicação e evita a rolagem vertical da p�
   font-family: 'Poppins';
   overflow-y: hidden;
 }
+```
 
 ## 3. Componente Background
 
@@ -319,29 +331,38 @@ O componente `Background` é responsável por renderizar um vídeo ou uma imagem
 Renderiza um vídeo se `playStatus` for `true`. Caso contrário, renderiza uma imagem com base no valor de `heroCount`.
 
 ```jsx
-import "./Background.css";
-import video1 from "../../assets/video1.mp4";
-import image1 from "../../assets/image1.png";
-import image2 from "../../assets/image2.png";
-import image3 from "../../assets/image3.png";
+import "./Background.css"; // Importa o arquivo de estilos CSS para o componente
+import video1 from "../../assets/video1.mp4"; // Importa o arquivo de vídeo para o fundo
+import image1 from "../../assets/image1.png"; // Importa a primeira imagem de fundo
+import image2 from "../../assets/image2.png"; // Importa a segunda imagem de fundo
+import image3 from "../../assets/image3.png"; // Importa a terceira imagem de fundo
 
 const Background = ({ playStatus, heroCount }) => {
+    // Verifica se o playStatus está ativado
     if (playStatus) {
+        // Se playStatus for verdadeiro, renderiza o vídeo como fundo
         return (
             <video className="background fade-in" autoPlay loop muted>
-                <source src={video1} type="video/mp4" />
+                <source src={video1} type="video/mp4" /> {/* Define o vídeo a ser reproduzido */}
             </video>
         );
-    } else if (heroCount === 0) {
+    } 
+    // Se playStatus não estiver ativado, verifica o valor de heroCount
+    else if (heroCount === 0) {
+        // Se heroCount for 0, renderiza a primeira imagem como fundo
         return <img src={image1} className="background fade-in" alt="Background Image 1" />;
-    } else if (heroCount === 1) {
+    } 
+    else if (heroCount === 1) {
+        // Se heroCount for 1, renderiza a segunda imagem como fundo
         return <img src={image2} className="background fade-in" alt="Background Image 2" />;
-    } else if (heroCount === 2) {
+    } 
+    else if (heroCount === 2) {
+        // Se heroCount for 2, renderiza a terceira imagem como fundo
         return <img src={image3} className="background fade-in" alt="Background Image 3" />;
     }
 }
 
-export default Background;
+export default Background; // Exporta o componente para ser utilizado em outras partes da aplicação
 ```
 
 ### CSS (`Background.css`)
@@ -355,31 +376,34 @@ Define a posição do background para cobrir toda a tela e garante que o element
 Adiciona uma animação para uma transição suave de opacidade.
 
 ```css
+/* Estiliza o fundo para ocupar toda a tela */
 .background {
-    height: 100%;
-    width: 100%;
-    float: left;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: none;
-    position: fixed;
-    object-fit: cover;
-    z-index: -1;
+    height: 100%; /* Define a altura do fundo para 100% da altura da tela */
+    width: 100%; /* Define a largura do fundo para 100% da largura da tela */
+    float: left; /* Flutua o elemento para a esquerda */
+    top: 0; /* Define a posição superior do fundo para 0 */
+    left: 0; /* Define a posição esquerda do fundo para 0 */
+    right: 0; /* Define a posição direita do fundo para 0 */
+    bottom: 0; /* Define a posição inferior do fundo para 0 */
+    padding: none; /* Remove qualquer preenchimento */
+    position: fixed; /* Fixar o fundo para que ele não se mova ao rolar a página */
+    object-fit: cover; /* Faz com que o conteúdo do fundo cubra completamente o elemento, mantendo a proporção */
+    z-index: -1; /* Define o índice z para que o fundo fique atrás dos outros conteúdos */
 }
 
+/* Define a animação de fade-in */
 @keyframes fadeIn {
     from {
-        opacity: 0;
+        opacity: 0; /* Começa com opacidade 0 (invisível) */
     }
     to {
-        opacity: 1;
+        opacity: 1; /* Termina com opacidade 1 (visível) */
     }
 }
 
+/* Aplica a animação de fade-in ao elemento */
 .fade-in {
-    animation: fadeIn 500ms ease-in-out;
+    animation: fadeIn 500ms ease-in-out; /* Define a duração da animação para 500ms e a curva de velocidade como ease-in-out */
 }
 ```
 
@@ -444,33 +468,37 @@ export default Navbar;
 O arquivo `Navbar.css` define o estilo para o componente de navegação, incluindo o layout do logo e do menu.
 
 ```css
+/* Estiliza o container de navegação */
 .nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 40px 120px;
-    color: white;
+    display: flex; /* Usa Flexbox para layout flexível */
+    justify-content: space-between; /* Distribui espaço igualmente entre os itens, alinhando-os nas extremidades */
+    align-items: center; /* Alinha os itens verticalmente no centro */
+    margin: 40px 120px; /* Define margens superior e inferior de 40px e margens esquerda e direita de 120px */
+    color: white; /* Define a cor do texto para branco */
 }
 
+/* Estiliza o logo de navegação */
 .nav-logo {
-    font-family: 'Outfit';
-    font-size: 42px;
-    font-weight: 400;
+    font-family: 'Outfit'; /* Define a fonte do logo */
+    font-size: 42px; /* Define o tamanho da fonte para 42px */
+    font-weight: 400; /* Define o peso da fonte para 400 (normal) */
 }
 
+/* Estiliza o menu de navegação */
 .nav-menu {
-    display: flex;
-    align-items: center;
-    list-style: none;
-    font-size: 18px;
-    gap: 90px;
+    display: flex; /* Usa Flexbox para layout flexível */
+    align-items: center; /* Alinha os itens verticalmente no centro */
+    list-style: none; /* Remove os marcadores da lista */
+    font-size: 18px; /* Define o tamanho da fonte para 18px */
+    gap: 90px; /* Define um espaçamento de 90px entre os itens do menu */
 }
 
+/* Estiliza o item de menu "Content" */
 .nav-content {
-    border-radius: 50px;
-    padding: 10px 30px;
-    background-color: #fff;
-    color: black;
+    border-radius: 50px; /* Adiciona bordas arredondadas com raio de 50px */
+    padding: 10px 30px; /* Adiciona preenchimento interno de 10px no topo e embaixo e 30px nas laterais */
+    background-color: #fff; /* Define a cor de fundo para branco */
+    color: black; /* Define a cor do texto para preto */
 }
 ```
 
