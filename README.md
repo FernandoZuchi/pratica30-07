@@ -411,30 +411,138 @@ Adiciona uma animação para uma transição suave de opacidade.
 - @keyframes fadeIn: Define a animação de transição de opacidade, que faz com que o elemento apareça suavemente.
 - .fade-in: Aplica a animação de fade-in para um efeito de transição suave de opacidade.
 
-### 5. Componente Navbar
+### 4. Componente Hero
 
-#### Código (`Navbar.js`):
+#### Código (`Hero.jsx`):
 
 O componente `Navbar` renderiza o logo e o menu de navegação, proporcionando uma interface de navegação no topo da página.
 
 ```jsx
-import "./Navbar.css";
+// Importa o arquivo de estilo CSS para o componente Hero
+import "./Hero.css";
 
-const Navbar = () => {
+// Importa as imagens dos ícones e botões
+import arrow_btn from '../../assets/arrow_btn.png';
+import play_icon from '../../assets/play_icon.png';
+import pause_icon from '../../assets/pause_icon.png';
+
+// Define o componente Hero que recebe várias propriedades
+const Hero = ({ heroData, setHeroCount, heroCount, setPlayStatus, playStatus }) => {
   return (
-    <div className="nav">
-        <div className="nav-logo">EV-olution</div>
-        <ul className="nav-menu">
-            <li>Home</li>
-            <li>Explore</li>
-            <li>About</li>
-            <li className="nav-content">Content</li>
-        </ul>
+    <div className="hero">
+        {/* Renderiza o texto do hero */}
+        <div className="hero-text">
+             <p>{heroData.text1}</p>
+             <p>{heroData.text2}</p>
+        </div>
+        {/* Renderiza a seção de exploração */}
+        <div className="hero-explore">
+            <p>Explore the features</p>
+            <img src={arrow_btn} alt="Explore Button"/>
+        </div>
+        {/* Renderiza os pontos de navegação e o controle de vídeo */}
+        <div className="hero-dot-play">
+            <ul className="hero-dots">
+                {/* Pontos de navegação para alternar entre os heróis */}
+                <li onClick={() => setHeroCount(0)} className={heroCount === 0 ? "hero-dot orange" : "hero-dot"}></li>
+                <li onClick={() => setHeroCount(1)} className={heroCount === 1 ? "hero-dot orange" : "hero-dot"}></li>
+                <li onClick={() => setHeroCount(2)} className={heroCount === 2 ? "hero-dot orange" : "hero-dot"}></li>
+            </ul>
+            <div className="hero-play">
+                {/* Botão de Play/Pause para o vídeo */}
+                <img onClick={() => setPlayStatus(!playStatus)} src={playStatus ? pause_icon : play_icon} alt="Play/Pause Button"/>
+                <p>See the video</p>
+            </div>
+        </div>
     </div>
   );
 }
 
-export default Navbar;
+// Exporta o componente Hero como padrão
+export default Hero;
+```
+
+### CSS (`Hero.css`)
+
+O arquivo `Navbar.css` define o estilo para o componente de navegação, incluindo o layout do logo e do menu.
+```
+/* Define margens para o container principal do componente hero */
+.hero {
+    margin: 0px 120px;      /* Margem horizontal de 120px */
+    margin-top: 270px;      /* Margem superior de 270px */
+}
+
+/* Estiliza o texto dentro do componente hero */
+.hero-text {
+    color: #FFF;            /* Cor do texto branco */
+    font-size: 110px;       /* Tamanho da fonte grande (110px) */
+    font-weight: 500;       /* Peso da fonte médio */
+    line-height: 130px;     /* Altura da linha para espaçamento */
+}
+
+/* Estiliza a seção "explore" do componente hero */
+.hero-explore {
+    display: flex;          /* Usa flexbox para o layout */
+    align-items: center;    /* Alinha os itens ao centro verticalmente */
+    gap: 50px;              /* Espaço entre os itens de 50px */
+    width: fit-content;     /* Largura ajustada ao conteúdo */
+    margin-top: 70px;       /* Margem superior de 70px */
+    padding: 5px 8px;       /* Padding interno */
+    padding-left: 30px;     /* Padding adicional à esquerda */
+    border-radius: 60px;    /* Bordas arredondadas */
+    background-color: white; /* Fundo branco */
+    cursor: pointer;        /* Aponta o cursor para indicar que é clicável */
+}
+
+/* Estiliza o parágrafo dentro da seção "explore" */
+.hero-explore p {
+    color: #292929;         /* Cor do texto */
+    font-size: 20px;        /* Tamanho da fonte */
+    font-weight: 500;       /* Peso da fonte */
+}
+
+/* Define o layout para a seção de pontos e botão de reprodução */
+.hero-dot-play {
+    margin: 120px;          /* Margem de 120px em todas as direções */
+    display: flex;          /* Usa flexbox para o layout */
+    justify-content: space-between; /* Espaça os itens igualmente */
+}
+
+/* Estiliza a lista de pontos de navegação */
+.hero-dots {
+    display: flex;          /* Usa flexbox para o layout */
+    align-items: center;    /* Alinha os itens ao centro verticalmente */
+    gap: 23px;              /* Espaço entre os pontos */
+    list-style: none;       /* Remove os marcadores de lista */
+}
+
+/* Estiliza cada ponto individualmente */
+.hero-dot {
+    width: 15px;            /* Largura do ponto */
+    height: 15px;           /* Altura do ponto */
+    background-color: #fff; /* Cor de fundo branca */
+    border-radius: 7.5px;   /* Bordas arredondadas */
+    cursor: pointer;        /* Aponta o cursor para indicar que é clicável */
+}
+
+/* Estiliza os pontos ativos com cor laranja */
+.hero-dot.orange {
+    background: orangered;  /* Cor de fundo laranja */
+}
+
+/* Estiliza a seção de controle de reprodução */
+.hero-play {
+    display: flex;          /* Usa flexbox para o layout */
+    align-items: center;    /* Alinha os itens ao centro verticalmente */
+    gap: 30px;              /* Espaço entre os itens */
+}
+
+/* Estiliza o parágrafo dentro da seção de reprodução */
+.hero-play p {
+    color: white;           /* Cor do texto branca */
+    font-size: 19px;        /* Tamanho da fonte */
+}
+
 ```
 
 ### 5. Componente Navbar
